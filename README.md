@@ -74,7 +74,7 @@ A few things to keep in mind:
 
 * Hoisting of `let` and `const` vary from the traditional hoisting of variables and functions. Both `let` and `const` are hoisted, but cannot be accessed before their declaration, because of [Temporal Dead Zone](http://jsrocks.org/2015/01/temporal-dead-zone-tdz-demystified)
 * `let` and `const` are scoped to the nearest enclosing block.
-* When using `const` with fixed strings, CAPITAL_CASING might be appropriate.
+* When using const with fixed strings or values, CAPITAL_CASING might be appropriate (ex: `const PI = 3.14`)
 * `const` has to be defined with its declaration.
 
 <br>
