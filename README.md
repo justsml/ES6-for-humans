@@ -85,15 +85,15 @@ Arrow functions are a short-hand notation for writing functions in ES6. The arro
 
 ```javascript
 // Classical Function Expression
-let addition = function(a, b) {
+function addition(a, b) {
     return a + b;
 };
 
 // Implementation with arrow function
-let addition = (a, b) => a + b;
+const addition = (a, b) => a + b;
 
 // With single argument, no parentheses required
-let add5 = a => 5 + a;
+const add5 = a => 5 + a;
 ```
 
 Note that in the above example, the `addition` arrow function is implemented with "concise body" which does not need an explicit return statement. Note the omitted `{ }` after the `=>`.
@@ -101,9 +101,9 @@ Note that in the above example, the `addition` arrow function is implemented wit
 Here is an example with the usual "block body." Including the curly brace wrappers.
 
 ```javascript
-let arr = ['apple', 'banana', 'orange'];
+const arr = ['apple', 'banana', 'orange'];
 
-let breakfast = arr.map(fruit => {
+const breakfast = arr.map(fruit => {
     return fruit + 's';
 });
 
@@ -135,7 +135,7 @@ In ECMAScript 3/5, this issue was fixed by assigning the value in `this` to a va
 
 ```javascript
 function Person() {
-    var self = this;
+    const self = this;
     self.age = 0;
 
     setInterval(function growUp() {
@@ -159,7 +159,7 @@ function Person() {
     }, 1000);
 }
 
-var p = new Person();
+let p = new Person();
 ```
 [Read more about 'Lexical this' in arrow functions here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#No_binding_of_this)
 
@@ -170,7 +170,7 @@ var p = new Person();
 ES6 allows you to set default parameters in function definitions. Here is a simple illustration.
 
 ```javascript
-let getFinalPrice = (price, tax = 0.7) => price + price * tax;
+const getFinalPrice = (price, tax = 0.7) => price + price * tax;
 getFinalPrice(500); // 850
 ```
 
@@ -191,7 +191,25 @@ let arr = [1, 2, 3];
 foo(...arr); // 1 2 3
 ```
 
-The other common usage of `...` is gathering a set of values together into an array. This is referred as "rest" operator.
+Spread is also great for shaping a new object from other object(s):
+
+```javascript
+const defaults = {avatar: 'placeholder.jpg', active: false}
+const userData = {username: 'foo', avatar: 'bar.jpg'}
+
+console.log({created: '2017-12-31', ...defaults, ...userData})
+// {created: "2017-12-31", avatar: "bar.jpg", active: false, username: "foo"}
+```
+
+New arrays can also be shaped expressively:
+
+```javascript
+const arr1 = [1, 2, 3];
+const arr2 = [7, 8, 9];
+console.log([...arr1, 4, 5, 6, ...arr2]) // [1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+The other common usage of `...` is gathering all arguments together into an array. This is referred as "rest" operator.
 
 ```javascript
 function foo(...args) {
@@ -288,13 +306,13 @@ console.log(a, b, c); // 4 5 6
 ES6 allows to use `super` method in (classless) objects with prototypes. Following is a simple example:
 
 ```javascript
-var parent = {
+const parent = {
     foo() {
         console.log("Hello from the Parent");
     }
 }
 
-var child = {
+const child = {
     foo() {
         super.foo();
         console.log("Hello from the Child");
@@ -326,7 +344,7 @@ console.log(`Hi ${user}!`); // Hi Kevin!
 * `for...of` iterates over iterable objects, such as array.
 
 ```javascript
-let nicknames = ['di', 'boo', 'punkeye'];
+const nicknames = ['di', 'boo', 'punkeye'];
 nicknames.size = 3;
 for (let nickname of nicknames) {
     console.log(nickname);
@@ -339,7 +357,7 @@ for (let nickname of nicknames) {
 * `for...in` iterates over all enumerable properties of an object.
 
 ```javascript
-let nicknames = ['di', 'boo', 'punkeye'];
+const nicknames = ['di', 'boo', 'punkeye'];
 nicknames.size = 3;
 for (let nickname in nicknames) {
     console.log(nickname);
@@ -359,9 +377,9 @@ ES6 introduces new set of data structures called `Map` and `WeakMap`. Now, we ac
 An object is made of keys (always strings) and values, whereas in `Map`, any value (both objects and primitive values) may be used as either a key or a value. Have a look at this piece of code:
 
 ```javascript
-var myMap = new Map();
+const myMap = new Map();
 
-var keyString = "a string",
+const keyString = "a string",
     keyObj = {},
     keyFunc = () => {};
 
@@ -387,11 +405,11 @@ Another thing to note here- in `WeakMap` as opposed to `Map` *every key must be 
 A `WeakMap` only has four methods `delete(key)`, `has(key)`, `get(key)` and `set(key, value)`.
 
 ```javascript
-let w = new WeakMap();
+const w = new WeakMap();
 w.set('a', 'b');
 // Uncaught TypeError: Invalid value used as weak map key
 
-var o1 = {},
+const o1 = {},
     o2 = () => {},
     o3 = window;
 
@@ -413,7 +431,7 @@ w.has(o1); // false
 *Set* objects are collections of unique values. Duplicate values are ignored, as the collection must have all unique values. The values can be primitive types or object references.
 
 ```javascript
-let mySet = new Set([1, 1, 2, 2, 3, 3]);
+const mySet = new Set([1, 1, 2, 2, 3, 3]);
 mySet.size; // 3
 mySet.has(1); // true
 mySet.add('strings');
@@ -448,9 +466,9 @@ Sets also have the `delete()` and `clear()` methods.
 Similar to `WeakMap`, the `WeakSet` object lets you store weakly held *objects* in a collection. An object in the `WeakSet` occurs only once; it is unique in the WeakSet's collection.
 
 ```javascript
-var ws = new WeakSet();
-var obj = {};
-var foo = {};
+const ws = new WeakSet();
+const obj = {};
+const foo = {};
 
 ws.add(window);
 ws.add(obj);
@@ -488,7 +506,7 @@ class Task {
 }
 
 console.log(typeof Task); // function
-let task = new Task(); // "task instantiated!"
+const task = new Task(); // "task instantiated!"
 task.showId(); // 23
 Task.loadAll(); // "Loading all tasks.."
 ```
@@ -536,7 +554,7 @@ A `Symbol` is a unique and immutable data type introduced in ES6. The purpose of
 Here’s how you create a symbol:
 
 ```javascript
-var sym = Symbol("some optional description");
+const sym = Symbol("some optional description");
 console.log(typeof sym); // symbol
 ```
 
@@ -545,7 +563,7 @@ Note that you cannot use `new` with `Symbol(…)`.
 If a symbol is used as a property/key of an object, it’s stored in a special way that the property will not show up in a normal enumeration of the object’s properties.
 
 ```javascript
-var o = {
+const o = {
     val: 10,
     [Symbol("random")]: "I'm a symbol",
 };
@@ -567,8 +585,8 @@ ES6 has `Symbol.iterator` which specifies the default iterator for an object. Wh
 Let’s look at an array, which is an iterable, and the iterator it can produce to consume its values:
 
 ```javascript
-var arr = [11,12,13];
-var itr = arr[Symbol.iterator]();
+const arr = [11,12,13];
+const itr = arr[Symbol.iterator]();
 
 itr.next(); // { value: 11, done: false }
 itr.next(); // { value: 12, done: false }
@@ -590,13 +608,13 @@ It is written using the new `*` syntax as well as the new `yield` keyword introd
 
 ```javascript
 function *infiniteNumbers() {
-    var n = 1;
+    let n = 1;
     while (true) {
         yield n++;
     }
 }
 
-var numbers = infiniteNumbers(); // returns an iterable object
+const numbers = infiniteNumbers(); // returns an iterable object
 
 numbers.next(); // { value: 1, done: false }
 numbers.next(); // { value: 2, done: false }
@@ -616,7 +634,7 @@ ES6 has native support for promises. A *promise* is an object that is waiting fo
 The standard way to create a Promise is by using the `new Promise()` constructor which accepts a handler that is given two functions as parameters. The first handler (typically named `resolve`) is a function to call with the future value when it's ready; and the second handler (typically named `reject`) is a function to call to reject the Promise if it can't resolve the future value.
 
 ```javascript
-var p = new Promise((resolve, reject) => {  
+const p = new Promise((resolve, reject) => {  
     if (/* condition */) {
         resolve(/* value */);  // fulfilled successfully
     } else {
@@ -635,7 +653,7 @@ p.then((val) => console.log("Promise Resolved", val),
 Returning a value from `then` callbacks will pass the value to the next `then` callback.
 
 ```javascript
-var hello = new Promise((resolve, reject) => { resolve("Hello") });
+const hello = new Promise((resolve, reject) => { resolve("Hello") });
 
 hello.then((str) => `${str} World`)
      .then((str) => `${str}!`)
@@ -646,9 +664,9 @@ When returning a promise, the resolved value of the promise will get passed to t
 This is a simple technique to avoid "callback hell".
 
 ```javascript
-var p = new Promise((resolve, reject) => { resolve(1) });
+const p = new Promise((resolve, reject) => { resolve(1) });
 
-var eventuallyAdd1 = (val) => new Promise((resolve, reject) => { resolve(val + 1) });
+const eventuallyAdd1 = (val) => new Promise((resolve, reject) => { resolve(val + 1) });
 
 p.then(eventuallyAdd1)
  .then(eventuallyAdd1)
